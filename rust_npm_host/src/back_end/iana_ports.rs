@@ -35,10 +35,12 @@ struct PortRecord {
 
 
 
-fn load_port_services(file_path: &str) -> Result<HashMap<String, PortRecord>, HashMap<String, PortRecord>, Box<dyn Error>> {
-    let mut tcp_service: HashMap<String, PortRecord> = HashMap::new();
+fn load_port_services(file_path: &str) -> Result<(HashMap<String, PortRecord>, HashMap<String, PortRecord>), Box<dyn Error>> {
+    let mut tcp_services: HashMap<String, PortRecord> = HashMap::new();
     let mut udp_services: HashMap<String, PortRecord> = HashMap::new();
     let mut range_services: HashMap<String, PortRecord> = HashMap::new();
+
+
 
     let file = File::open(file_path)?;
     let mut rdr = csv::Reader::from_reader(file);
@@ -50,26 +52,25 @@ fn load_port_services(file_path: &str) -> Result<HashMap<String, PortRecord>, Ha
         if !record.port_number.is_empty() && !record.service_name.is_empty() {
             
             // I need to see if this conatins a - as a string
-            if port_num.contains("-") {
+            if record.port_number.contains("-") {
 
-                range_services.insert(port_num, record);
+                range_services.insert(record.port_number.clone(), record);
                 continue;
             }
 
-            if let Ok(port_num) = record.port_number.parse::<u16>() {
+            if record.port_number.parse::<u16>().is_ok() {
 
                 match record.transport_protocol.to_lowercase().as_str() {
                     "tcp" => {
-                        tcp_services.insert(port_num, record);
+                        tcp_services.insert(record.port_number.clone(), record);
                     }
                     "udp" => {
-                        udp_services.insert(port_num, record);
+                        udp_services.insert(record.port_number.clone(), record);
                     }
+                    _ => {} // This is to ignore the unparseble protocols, and all the other ones.
                 }
-
             }
-            // I could put a continue at the end of thses, but naw.
-
         }
     }
+    Ok((tcp_services, udp_services))
 }
