@@ -9,7 +9,7 @@ fn main() {
 
     //I am trying the gui interface rn
 
-    front_end::application::run_gui();
+    // front_end::application::run_gui();
 
     /*
     // let addr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(8, 8, 8, 8)), 53);
