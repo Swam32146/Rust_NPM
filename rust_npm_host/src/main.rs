@@ -76,6 +76,8 @@ async fn main() {
     println!("GUI part would run here. For now, example checks are complete.");
 
 
+    // front_end::application::run_gui();
+
     /*
     // let addr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(8, 8, 8, 8)), 53);
     let timeout: Duration = Duration::from_secs(1);
