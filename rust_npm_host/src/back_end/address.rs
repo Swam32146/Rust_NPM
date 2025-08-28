@@ -6,13 +6,11 @@ pub fn load_addresses(addresses: &mut Vec<SocketAddr>) {
     println!("Format: <IP_ADDRESS>:<SOCKET> (e.g., 192.168.1.1:80)");
     println!("Type 'done' or press Enter on an empty line when finished.");
     
+    let mut input = String::new();
 
     loop{
         print!("# ");
         io::stdout().flush().expect("Failed to flush stdout");
-
-
-        let mut input = String::new();
 
         match io::stdin().read_line(&mut input) {
             Ok(_) => {
