@@ -41,9 +41,6 @@ async fn main() {
             }
         }
 
-
-
-
         tokio::select! {
             _ = time::sleep(Duration::from_secs(timeout)) => {
                 // Once timeout passed, continue the loop
